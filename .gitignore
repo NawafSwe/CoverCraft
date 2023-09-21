@@ -1,3 +1,35 @@
 .env*
-.idea
-.vs_code
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
+
+# Folders
+_obj/
+_test/
+vendor/
+dist/
+.idea/
+.vscode/
+tmp/
+.vscode-server/
+.vscode-test/
+node_modules/
+
+# Binary files
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Log files and crash reports
+*.log
+*.crash
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories
+Godeps/
+vendor/
