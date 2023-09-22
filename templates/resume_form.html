@@ -1,0 +1,172 @@
+<!-- resume_form.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        textarea {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #pleaseWait {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        #result {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #optimizedResume {
+            white-space: pre-wrap;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Resume Optimizer</h1>
+    <form id="resumeForm">
+        <label for="company">Company</label>
+        <input type="text" id="company" name="company" required>
+
+        <label for="name">Job Name</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="location">Location</label>
+        <input type="text" id="location" name="location" required>
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="4" required></textarea>
+
+        <label for="qualifications">Qualifications</label>
+        <textarea id="qualifications" name="qualifications" rows="4" required></textarea>
+
+        <label for="resumeText">Resume Text</label>
+        <textarea id="resumeText" name="resumeText" rows="8" required></textarea>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="pleaseWait">Please wait, optimizing resume...</div>
+
+    <div id="result">
+        <h2>Optimized Resume 🍰</h2>
+        <pre id="optimizedResume"></pre>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("resumeForm"); // Get the form by its ID
+            const pleaseWaitMessage = document.getElementById("pleaseWait");
+            const resultDiv = document.getElementById("result");
+            const optimizedResume = document.getElementById("optimizedResume");
+
+            form.addEventListener("submit", async function (event) {
+                event.preventDefault();
+
+                // Disable the form while processing
+                form.classList.add("disabled");
+                pleaseWaitMessage.style.display = "block";
+
+                // Create a JSON object from form data
+                const formData = new FormData(form);
+                const jsonObject = {};
+                formData.forEach((value, key) => {
+                    if (key === 'resumeText') {
+                        jsonObject['resume'] = {};
+                        jsonObject['resume']['text'] = value;
+                    } else {
+                        if ("job" in jsonObject)
+                            jsonObject['job'][key] = value;
+                        else {
+                            jsonObject['job'] = {};
+                            jsonObject['job'][key] = value;
+                        }
+                    }
+                    jsonObject[key] = value;
+                });
+
+
+                // Send the JSON data to your Go server
+                const response = await fetch("/optimize-resume", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json", // Set the content type to JSON
+                    },
+                    body: JSON.stringify(jsonObject), // Send the JSON data as the request body
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    optimizedResume.textContent = data.result;
+                    resultDiv.style.display = "block";
+                } else {
+                    optimizedResume.textContent = "Error occurred while optimizing the resume.";
+                    resultDiv.style.display = "block";
+                }
+
+                // Re-enable the form and hide the "Please Wait" message
+                form.classList.remove("disabled");
+                pleaseWaitMessage.style.display = "none";
+            });
+        });
+
+    </script>
+</div>
+</body>
+</html>

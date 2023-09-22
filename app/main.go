@@ -9,6 +9,7 @@ import (
 	"github.com/sashabaranov/go-openai"
 	"net/http"
 	"os"
+	"text/template"
 )
 
 type job struct {
@@ -48,7 +49,7 @@ func main() {
 	// Routes
 	e.GET("/health", health)
 	e.POST("/optimize-resume", optimizeResumeFromJob)
-
+	e.GET("/optimize-resume", renderResumeForm)
 	// Start server
 	e.Logger.Fatal(e.Start(":8080"))
 }
@@ -75,12 +76,8 @@ func optimizeResumeFromJob(c echo.Context) error {
 			Model: openai.GPT3Dot5Turbo,
 			Messages: []openai.ChatCompletionMessage{
 				{
-					Role:    openai.ChatMessageRoleSystem,
-					Content: "You are a helpful assistant that optimizes resumes.",
-				},
-				{
 					Role:    openai.ChatMessageRoleUser,
-					Content: fmt.Sprintf("Hello, I'd like to share a job opportunity with you. The job is at %v, and here's the description: %v. The qualifications for this position are: %v. Could you please optimize the following resume for this job? Here's the resume in text: %v", u.Job.Company, u.Job.Description, u.Job.Qualifications, u.Resume.Text),
+					Content: fmt.Sprintf("Hello, I'd like to get a help, I need you to optimize a resume based on a job. The job is at %v, and here's the description: %v. The qualifications for this position are: %v. Could you please optimize the following resume by paraphrase all sections to be optimized for this job? Here's the resume in text: %v", u.Job.Company, u.Job.Description, u.Job.Qualifications, u.Resume.Text),
 				},
 			},
 		},
@@ -92,4 +89,14 @@ func optimizeResumeFromJob(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, optimizationResult{Result: response.Choices[0].Message.Content})
+}
+
+func renderResumeForm(c echo.Context) error {
+	tmpl, err := template.ParseFiles("templates/resume_form.html")
+	if err != nil {
+		return err
+	}
+
+	// Render the HTML template
+	return tmpl.Execute(c.Response().Writer, nil)
 }
