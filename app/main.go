@@ -7,6 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/sashabaranov/go-openai"
+	"html"
 	"net/http"
 	"os"
 	"text/template"
@@ -69,6 +70,14 @@ func optimizeResumeFromJob(c echo.Context) error {
 	if err := c.Bind(u); err != nil {
 		return err
 	}
+	// Sanitize text fields
+	u.Job.Company = html.EscapeString(u.Job.Company)
+	u.Job.Location = html.EscapeString(u.Job.Location)
+	u.Job.Name = html.EscapeString(u.Job.Name)
+	u.Job.Description = html.EscapeString(u.Job.Description)
+	u.Job.Qualifications = html.EscapeString(u.Job.Qualifications)
+	u.Resume.Text = html.EscapeString(u.Resume.Text)
+
 	client := openai.NewClient(os.Getenv("CHAT_GPT_TOKEN"))
 	response, err := client.CreateChatCompletion(
 		context.Background(),
