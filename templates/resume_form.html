@@ -111,7 +111,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const form = document.getElementById("resumeForm"); // Get the form by its ID
+            const form = document.getElementById("resumeForm");
             const pleaseWaitMessage = document.getElementById("pleaseWait");
             const resultDiv = document.getElementById("result");
             const optimizedResume = document.getElementById("optimizedResume");
@@ -142,13 +142,12 @@
                 });
 
 
-                // Send the JSON data to your Go server
                 const response = await fetch("/optimize-resume", {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json", // Set the content type to JSON
+                        "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(jsonObject), // Send the JSON data as the request body
+                    body: JSON.stringify(jsonObject),
                 });
 
                 if (response.ok) {
