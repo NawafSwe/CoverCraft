@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"coverCraft/config"
 	"fmt"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
@@ -47,6 +48,20 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
+	// initialize db connection
+
+	config.DatabaseInit()
+	gorm := config.DB()
+	dbGorm, err := gorm.DB()
+	if err != nil {
+		panic(err)
+	}
+
+	pingErr := dbGorm.Ping()
+	if pingErr != nil {
+		panic(pingErr)
+	}
+
 	// Routes
 	e.GET("/health", health)
 	e.POST("/optimize-resume", optimizeResumeFromJob)
@@ -86,7 +101,7 @@ func optimizeResumeFromJob(c echo.Context) error {
 			Messages: []openai.ChatCompletionMessage{
 				{
 					Role:    openai.ChatMessageRoleUser,
-					Content: fmt.Sprintf("Hello, I'd like to get a help, I need you to optimize a resume based on a job. The job is at %v, and here's the description: %v. The qualifications for this position are: %v. Could you please optimize the following resume by paraphrase all sections to be optimized for this job? Here's the resume in text: %v", u.Job.Company, u.Job.Description, u.Job.Qualifications, u.Resume.Text),
+					Content: fmt.Sprintf("Hello, I'd like to get a help, I need you to optimize a resume based on a job. The job is at %v, and here's the description of the job: %v. The qualifications for this position are: %v. Could you please optimize the following resume by paraphrase all sections to be optimized for this job? Here's the resume in text: %v", u.Job.Company, u.Job.Description, u.Job.Qualifications, u.Resume.Text),
 				},
 			},
 		},
