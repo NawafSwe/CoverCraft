@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// ListAllJobs , this is an endpoint to view posted jobs by people
 func ListAllJobs(c echo.Context) error {
 	jobs, err := aggregates.ListAllJobs()
 	if err != nil {
