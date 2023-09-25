@@ -35,20 +35,17 @@ Before you can run the CoverCraft project, you need to have the following prereq
 Install project dependencies using the provided Makefile:
 
 ```bash
-Copy code
 make install
 ```
 ### Usage
 Start the application using the Makefile:
 
 ```bash
-Copy code
 make run
 ```
 Alternatively, you can start the application using the following command:
 
 ```bash
-Copy code
 go run app/main.go
 ```
 Access the CoverCraft application by navigating to http://localhost:your_port in your web browser.
