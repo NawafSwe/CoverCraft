@@ -2,7 +2,7 @@ package main
 
 import (
 	"coverCraft/config"
-	coverOptimizerRoutes "coverCraft/cover_optimizer/http"
+	coverOptimizerRoutes "coverCraft/domain/interfaces/http"
 	"fmt"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
