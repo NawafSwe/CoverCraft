@@ -3,7 +3,6 @@
 <html lang="en">
 <head>
     <style>
-        /* Add your CSS styles here */
         body {
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
@@ -68,7 +67,7 @@
             margin-top: 20px;
         }
 
-        #optimizedResume {
+        #generatedCoverLetter {
             white-space: pre-wrap;
             padding: 10px;
             border: 1px solid #ccc;
@@ -79,7 +78,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Resume Optimizer</h1>
+    <h1>Cover Letter Craft</h1>
     <form id="resumeForm">
         <label for="company">Company</label>
         <input type="text" id="company" name="company" required>
@@ -101,12 +100,12 @@
 
         <button type="submit">Submit</button>
     </form>
-
-    <div id="pleaseWait">Please wait, optimizing resume...</div>
+    <h3>Please Note, we are not saving your personal data</h3>
+    <div id="pleaseWait">Please wait, Generating your awesome cover letter... 👨‍🏭</div>
 
     <div id="result">
-        <h2>Optimized Resume 🍰</h2>
-        <pre id="optimizedResume"></pre>
+        <h2>Generated Cover Letter 🍰</h2>
+        <pre id="generatedCoverLetter"></pre>
     </div>
 
     <script>
@@ -114,7 +113,7 @@
             const form = document.getElementById("resumeForm");
             const pleaseWaitMessage = document.getElementById("pleaseWait");
             const resultDiv = document.getElementById("result");
-            const optimizedResume = document.getElementById("optimizedResume");
+            const generatedCoverLetter = document.getElementById("generatedCoverLetter");
 
             form.addEventListener("submit", async function (event) {
                 event.preventDefault();
@@ -152,10 +151,10 @@
 
                 if (response.ok) {
                     const data = await response.json();
-                    optimizedResume.textContent = data.result;
+                    generatedCoverLetter.textContent = data.result;
                     resultDiv.style.display = "block";
                 } else {
-                    optimizedResume.textContent = "Error occurred while optimizing the resume.";
+                    generatedCoverLetter.textContent = "Error occurred while optimizing the resume.";
                     resultDiv.style.display = "block";
                 }
 
