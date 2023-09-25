@@ -22,6 +22,8 @@ Before you can run the CoverCraft project, you need to have the following prereq
 
 - PostgreSQL: Install PostgreSQL and create a database for the project. Update the database connection configuration in `config/db.go`.
 
+- OpenAI API Key: Acquire an API key from [OpenAI](https://openai.com) to use the ChatGPT-3 AI model.
+
 ### Installation
 
 1. Clone the CoverCraft repository to your local machine:
