@@ -1,6 +1,7 @@
 package config
 
 import (
+	entities "coverCraft/entity"
 	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -23,6 +24,10 @@ func DatabaseInit() {
 
 	if e != nil {
 		panic(e)
+	}
+	// Auto-migrate the model to create the table if it doesn't exist
+	if autoMergeErr := database.AutoMigrate(&entities.Job{}); autoMergeErr != nil {
+		panic(autoMergeErr)
 	}
 }
 
