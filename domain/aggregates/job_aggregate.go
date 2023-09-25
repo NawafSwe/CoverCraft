@@ -2,7 +2,7 @@ package aggregates
 
 import (
 	"coverCraft/config"
-	entities "coverCraft/entity"
+	"coverCraft/entities"
 	"github.com/google/uuid"
 )
 

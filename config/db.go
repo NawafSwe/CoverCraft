@@ -1,7 +1,7 @@
 package config
 
 import (
-	entities "coverCraft/entity"
+	"coverCraft/entities"
 	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
