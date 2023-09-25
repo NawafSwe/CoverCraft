@@ -12,10 +12,10 @@ type resume struct {
 	Text string `json:"text"`
 }
 
-type OptimizeResumeRequest struct {
+type GenerateCoverLetterRequest struct {
 	Job    job    `json:"job"`
 	Resume resume `json:"resume"`
 }
-type OptimizationResult struct {
+type GenerateCoverLetterResult struct {
 	Result string `json:"result"`
 }

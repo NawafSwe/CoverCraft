@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-func ProcessResume(op valueobjects.OptimizeResumeRequest) (string, error) {
+func ProcessResume(op valueobjects.GenerateCoverLetterRequest) (string, error) {
 
 	client := openai.NewClient(os.Getenv("CHAT_GPT_TOKEN"))
 	response, err := client.CreateChatCompletion(

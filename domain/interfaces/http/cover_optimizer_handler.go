@@ -12,7 +12,7 @@ import (
 )
 
 func GenerateCoverLetter(c echo.Context) error {
-	optimizationReq := new(valueObjects.OptimizeResumeRequest)
+	optimizationReq := new(valueObjects.GenerateCoverLetterRequest)
 	if err := c.Bind(optimizationReq); err != nil {
 		return err
 	}
@@ -40,7 +40,7 @@ func GenerateCoverLetter(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err)
 	}
-	return c.JSON(http.StatusOK, valueObjects.OptimizationResult{Result: response})
+	return c.JSON(http.StatusOK, valueObjects.GenerateCoverLetterResult{Result: response})
 }
 
 func RenderResumeForm(c echo.Context) error {
