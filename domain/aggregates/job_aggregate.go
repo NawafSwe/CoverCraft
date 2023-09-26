@@ -1,22 +1,22 @@
 package aggregates
 
 import (
-	"coverCraft/config"
+	"coverCraft/domain/repositories"
 	"coverCraft/entities"
 	"github.com/google/uuid"
 )
 
 type Job struct {
-	Id             uuid.UUID
-	Company        string
-	Location       string
-	Description    string
-	Qualifications string
-	Name           string
+	Id             uuid.UUID `json:"id"`
+	Company        string    `json:"company"`
+	Location       string    `json:"location"`
+	Description    string    `json:"description"`
+	Qualifications string    `json:"qualifications"`
+	Name           string    `json:"name"`
 }
 
-func CreateJob(job *Job) error {
-	jobModel := &entities.Job{
+func CreateJob(job *Job, jobRepo repositories.JobRepository) error {
+	jobModel := entities.Job{
 		ID:             uuid.New(),
 		Name:           job.Name,
 		Location:       job.Location,
@@ -24,21 +24,19 @@ func CreateJob(job *Job) error {
 		Description:    job.Description,
 		Qualifications: job.Qualifications,
 	}
-	gorm := config.DB()
-	if err := gorm.Create(&jobModel).Error; err != nil {
+	if err := jobRepo.Create(jobModel); err != nil {
 		return err
 	}
 	return nil
 
 }
 
-func ListAllJobs() ([]Job, error) {
-	gorm := config.DB()
-	var jobs []*entities.Job
-	var convertedJobs []Job
-	if res := gorm.Find(&jobs); res.Error != nil {
-		return convertedJobs, res.Error
+func ListAllJobs(jobRepo repositories.JobRepository) ([]Job, error) {
+	jobs, err := jobRepo.ListAllJobs()
+	if err != nil {
+		return nil, err
 	}
+	var convertedJobs []Job
 	for _, v := range jobs {
 		convertedJob := Job{
 			Id:             v.ID,
