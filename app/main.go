@@ -44,6 +44,7 @@ func main() {
 	e.GET("/generate-cover-letter", coverOptimizerRoutes.RenderResumeForm)
 	// default redirect
 	e.GET("/", coverOptimizerRoutes.RenderResumeForm)
+	e.GET("/jobs", coverOptimizerRoutes.ListAllJobs)
 	// Start server
 	e.Logger.Fatal(e.Start(":8080"))
 }
