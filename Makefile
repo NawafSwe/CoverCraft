@@ -17,3 +17,13 @@ install:
 	@echo "Installing project dependencies..."
 	@$(GO) mod tidy
 
+compose-build:
+	@echo "Starting to build images"
+	docker compose build
+compose-up:
+	@echo "Starting to run built images"
+	docker compose up -d
+
+compose-down:
+	@echo "Starting to turn services down"
+	docker compose down

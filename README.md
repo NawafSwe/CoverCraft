@@ -43,10 +43,11 @@ Start the application using the Makefile:
 ```bash
 make run
 ```
-Alternatively, you can start the application using the following command:
+Alternatively, you can start the application using docker compose with the following commands:
 
 ```bash
-go run app/main.go
+make compose-build
+make compose-up
 ```
 Access the CoverCraft application by navigating to http://localhost:your_port in your web browser.
 
@@ -71,7 +72,7 @@ The project is organized into the following directories:
 
 - ```domain/valueobjects```: Contains request value objects used in the application.
 
-- ``` entities``` : Contains database entities, such as the Job entity.
+- ```entities``` : Contains database entities, such as the Job entity.
 
 - ```templates``` : Contains HTML templates for rendering web pages.
 
