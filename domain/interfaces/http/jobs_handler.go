@@ -1,7 +1,6 @@
 package http
 
 import (
-	"coverCraft/config"
 	"coverCraft/domain/aggregates"
 	"coverCraft/domain/repositories"
 	"github.com/labstack/echo/v4"
@@ -9,9 +8,8 @@ import (
 )
 
 // ListAllJobs , this is an endpoint to view posted jobs by people
-func ListAllJobs(c echo.Context) error {
-	jobRepo := repositories.NewGormJobRepository(config.DB())
-	jobs, err := aggregates.ListAllJobs(jobRepo)
+func ListAllJobs(c echo.Context, repository repositories.JobRepository) error {
+	jobs, err := aggregates.ListAllJobs(repository)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}

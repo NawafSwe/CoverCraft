@@ -1,7 +1,6 @@
 package http
 
 import (
-	"coverCraft/config"
 	"coverCraft/domain/aggregates"
 	"coverCraft/domain/repositories"
 	"coverCraft/domain/services"
@@ -13,7 +12,7 @@ import (
 	"text/template"
 )
 
-func GenerateCoverLetter(c echo.Context) error {
+func GenerateCoverLetter(c echo.Context, repository repositories.JobRepository) error {
 	optimizationReq := new(valueObjects.GenerateCoverLetterRequest)
 	if err := c.Bind(optimizationReq); err != nil {
 		return err
@@ -26,7 +25,6 @@ func GenerateCoverLetter(c echo.Context) error {
 	optimizationReq.Job.Qualifications = html.EscapeString(optimizationReq.Job.Qualifications)
 	optimizationReq.Resume.Text = html.EscapeString(optimizationReq.Resume.Text)
 
-	jobRepo := repositories.NewGormJobRepository(config.DB())
 	job := aggregates.Job{
 		Id:             uuid.New(),
 		Name:           optimizationReq.Job.Name,
@@ -35,7 +33,7 @@ func GenerateCoverLetter(c echo.Context) error {
 		Description:    optimizationReq.Job.Description,
 		Qualifications: optimizationReq.Job.Qualifications,
 	}
-	if err := aggregates.CreateJob(&job, jobRepo); err != nil {
+	if err := aggregates.CreateJob(&job, repository); err != nil {
 		return c.JSON(http.StatusBadRequest, "Failed to generate a cover letter")
 	}
 
