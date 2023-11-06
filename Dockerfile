@@ -7,7 +7,7 @@ WORKDIR /src
 COPY . .
 
 # Build the Go application
-RUN go build -o main app/main.go
+RUN go build -o main cmd/main.go
 
 # Expose on Port 80
 EXPOSE 8080

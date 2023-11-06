@@ -11,7 +11,7 @@ help:
 
 run:
 	@echo "Starting $(APP_NAME)..."
-	@$(GO) run app/main.go
+	@$(GO) run cmd/main.go
 
 install:
 	@echo "Installing project dependencies..."
