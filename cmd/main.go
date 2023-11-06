@@ -36,7 +36,10 @@ func SetupRouter(app *App) *echo.Echo {
 	})
 	e.GET("/generate-cover-letter", coverOptimizerRoutes.RenderResumeForm)
 	// default redirect
-	e.GET("/", coverOptimizerRoutes.RenderResumeForm)
+	e.GET("/", func(c echo.Context) error {
+
+		return c.Redirect(http.StatusSeeOther, "/generate-cover-letter")
+	})
 
 	return e
 }
@@ -61,7 +64,7 @@ func main() {
 	if pingErr != nil {
 		panic(pingErr)
 	}
-
+	// create app with dependencies
 	app := NewApp(repositories.NewGormJobRepository(gorm))
 	// Set up the Echo router and pass the app instance
 	e := SetupRouter(app)
